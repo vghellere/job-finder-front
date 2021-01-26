@@ -25,6 +25,7 @@ module.exports = {
       'react/jsx-props-no-spreading': 'off',
       'react-hooks/exhaustive-deps': 'off',
       '@typescript-eslint/explicit-function-return-type': 'off',
+      'import/prefer-default-export': 'off'
     },
   };
   
