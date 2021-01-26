@@ -6,7 +6,8 @@ import MainPage from "./pages/Main";
 const useStyles = makeStyles({
   mainDiv: {
     backgroundColor: "#F0F0FF",
-    height: "100vh",
+    minHeight: "100vh",
+    height: "100%",
     width: "100%",
   },
 });
