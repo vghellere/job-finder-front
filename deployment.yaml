@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jobfinder-front
+  labels:
+    app: jobfinder-front
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jobfinder-front
+  template:
+    metadata:
+      labels:
+        app: jobfinder-front
+    spec:
+      imagePullSecrets:
+      - name: dc-kz8ll
+      containers:
+      - name: jobfinder-front
+        image: docker-registry.crazyworks.app/jobfinder-front:${CICD_EXECUTION_ID}
+        ports:
+        - containerPort: 80

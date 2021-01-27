@@ -1,0 +1,14 @@
+﻿stages:
+- name: BUILD FRONT
+  steps:
+  - publishImageConfig:
+      dockerfilePath: ./Dockerfile
+      buildContext: ./
+      tag: jobfinder-front:${CICD_EXECUTION_ID}
+      registry: docker-registry.crazyworks.app
+      pushRemote: true
+- name: DEPLOY FRONT
+  steps:
+  - applyYamlConfig:
+      path: ./deployment.yaml
+timeout: 60
