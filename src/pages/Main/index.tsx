@@ -1,8 +1,8 @@
 import React from "react";
-// import { Container } from "./styles";
 import { Container, Grid, Paper, Typography, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import SearchMysql from "../SearchMysql";
+import SearchElastic from "../SearchElastic";
 
 const useStyles = makeStyles({
   header: {
@@ -39,7 +39,7 @@ const MainPage = () => {
       case 1:
         return <SearchMysql />;
       case 2:
-        return <SearchMysql />;
+        return <SearchElastic />;
       default:
         return (
           <Grid item xs={12}>
