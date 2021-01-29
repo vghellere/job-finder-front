@@ -31,6 +31,7 @@ const useStyles = makeStyles({
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "column",
+    align: "center",
     minHeight: "100px",
   },
   select: {
@@ -41,8 +42,12 @@ const useStyles = makeStyles({
   },
   resultGrid: {
     justifyContent: "center",
-    alignItems: "center",
-    align: "center",
+  },
+  fullHeightCard: {
+    height: "100%",
+  },
+  secondaryResultGrid: {
+    marginTop: "15px",
   },
   loadingIcon: {
     animation: "$spin 3s linear infinite",
@@ -125,7 +130,7 @@ const SearchMysql = () => {
 
   const renderCardCandidate = (candidate: any) => {
     return (
-      <Card variant="outlined">
+      <Card variant="outlined" className={classes.fullHeightCard}>
         <CardContent>
           <Typography variant="h5" component="h2">
             Candidate ID: {candidate.id}
@@ -169,26 +174,63 @@ const SearchMysql = () => {
 
   const renderResults = () => {
     return (
-      <Grid container spacing={3} className={classes.resultGrid}>
-        {(() => {
-          if (isLoadingSearch) {
-            return renderLoading();
-          }
-          if (
-            "candidates" in searchResult &&
-            searchResult.candidates.length > 0
-          ) {
-            return searchResult.candidates.map((candidate: any) => {
-              return (
-                <Grid item xs={4} key={candidate.id}>
-                  {renderCardCandidate(candidate)}
+      <div>
+        <Grid item xs={12}>
+          <Paper className={classes.paperResults}>
+            <Typography variant="h6">Main results</Typography>
+            <Grid container spacing={3} className={classes.resultGrid}>
+              {(() => {
+                if (isLoadingSearch) {
+                  return renderLoading();
+                }
+                if (
+                  "main_candidates" in searchResult &&
+                  searchResult.main_candidates.length > 0
+                ) {
+                  return searchResult.main_candidates.map((candidate: any) => {
+                    return (
+                      <Grid item xs={4} key={candidate.id}>
+                        {renderCardCandidate(candidate)}
+                      </Grid>
+                    );
+                  });
+                }
+                return <Typography gutterBottom>No results found!</Typography>;
+              })()}
+            </Grid>
+          </Paper>
+        </Grid>
+        {"secondary_candidates" in searchResult &&
+          searchResult.secondary_candidates.length > 0 && (
+            <Grid item xs={12} className={classes.secondaryResultGrid}>
+              <Paper className={classes.paperResults}>
+                <Typography variant="h6">Secondary results</Typography>
+                <Grid container spacing={3} className={classes.resultGrid}>
+                  {(() => {
+                    if (isLoadingSearch) {
+                      return renderLoading();
+                    }
+                    if (
+                      "secondary_candidates" in searchResult &&
+                      searchResult.secondary_candidates.length > 0
+                    ) {
+                      return searchResult.secondary_candidates.map(
+                        (candidate: any) => {
+                          return (
+                            <Grid item xs={4} key={candidate.id}>
+                              {renderCardCandidate(candidate)}
+                            </Grid>
+                          );
+                        }
+                      );
+                    }
+                    return <div />;
+                  })()}
                 </Grid>
-              );
-            });
-          }
-          return <Typography gutterBottom>No results found!</Typography>;
-        })()}
-      </Grid>
+              </Paper>
+            </Grid>
+          )}
+      </div>
     );
   };
 
@@ -282,9 +324,7 @@ const SearchMysql = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <Paper className={classes.paperResults}>{renderResults()}</Paper>
-        </Grid>
+        {renderResults()}
       </Grid>
     </Grid>
   );
